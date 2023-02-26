@@ -8,6 +8,8 @@ namespace MinhasFinancasAPI.Repository.Interface
 
         bool Save(User user);
 
+        bool SaveRegister(Registro registro);
+
         User VerificaUsuario(User user);
     }
 }

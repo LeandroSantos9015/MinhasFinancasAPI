@@ -30,6 +30,15 @@ namespace MinhasFinancasAPI.Service.Implementation
             _userRepository.Save(user);
         }
 
+
+        public void SaveRegister(Registro registro)
+        {
+            registro.Date = registro.Date.Replace(" ", "T");
+
+            _userRepository.SaveRegister(registro);
+        }
+
+
         public User RetornaUsuarioLogado(User user)
         {
             try

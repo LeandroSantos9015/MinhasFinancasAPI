@@ -42,6 +42,20 @@ namespace MinhasFinancasAPI.Repository.Implementation
             }
         }
 
+        public bool SaveRegister(Registro registro)
+        {
+            try
+            {
+                _baseRepository.Connection.Execute("SalvarRegistro", registro, commandType: CommandType.StoredProcedure);
+
+                return true;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public User VerificaUsuario(User user)
         {
             // Implementar function para evitar sql injection

@@ -7,7 +7,7 @@ using MinhasFinancasAPI.Service.Interface;
 namespace MinhasFinancasAPI.Controllers
 {
     [Route("api/[controller]")]
-    //  [Authorize]
+   // [Authorize]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -41,14 +41,12 @@ namespace MinhasFinancasAPI.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+       // [Authorize]
         [Route("me")]
         public IActionResult GetDataByToken()
         {
             try
             {
-                //var accessToken = await HttpContext.Authentication.GetTokenAsync("access_token");
-
                 Request.Headers.ToString();
 
                 var token = Request.Headers["Authorization"];
@@ -66,6 +64,54 @@ namespace MinhasFinancasAPI.Controllers
                 return new StatusCodeResult(500);
             }
         }
+
+
+        [HttpGet]
+        [Route("balance")]
+        public IActionResult Balance()
+        {
+            try
+            {
+                IList<Balance> balances = new List<Balance>();
+
+                var token = Request.Headers["Authorization"];
+
+                // pra fazer a consulta no banco
+                var retorno = _userService.VerificaToken(token);
+
+
+                balances.Add(new Balance() { Saldo = 400, Tag = "saldo" });
+                balances.Add(new Balance() { Saldo = 500, Tag = "receita" });
+                balances.Add(new Balance() {  Saldo = 100, Tag = "despesa"});
+                
+                
+
+                return Ok(balances);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro XXXXX");
+                return new StatusCodeResult(500);
+            }
+        }
+
+        [HttpPost]
+        [Route("receive")]
+        public IActionResult Registrar(Registro registro)
+        {
+            try
+            {
+                _userService.SaveRegister(registro);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro XXXXX");
+                return new StatusCodeResult(500);
+            }
+        }
+
+
 
 
         [HttpPost]

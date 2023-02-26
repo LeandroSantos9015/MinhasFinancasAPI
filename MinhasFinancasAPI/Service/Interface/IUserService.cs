@@ -9,6 +9,8 @@ namespace MinhasFinancasAPI.Service.Interface
 
         void SaveUser(User user);
 
+        void SaveRegister(Registro user);
+
         User RetornaUsuarioLogado(User user);
 
         string VerificaToken(string token);
