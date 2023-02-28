@@ -8,9 +8,7 @@ namespace MinhasFinancasAPI.Service.Interface
         IEnumerable<User> GetUsers();
 
         void SaveUser(User user);
-
-        void SaveRegister(Registro user);
-
+      
         User RetornaUsuarioLogado(User user);
 
         string VerificaToken(string token);

@@ -15,11 +15,11 @@ namespace MinhasFinancasAPI.Service.Implementation
         private readonly IUserRepository _userRepository;
         private const string securityKey = "AchaveDeSegurancaTemQueSerMaiorQue128Bits";
 
-
         public UserService(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
+
         public IEnumerable<User> GetUsers()
         {
             return _userRepository.GetAll();
@@ -29,15 +29,6 @@ namespace MinhasFinancasAPI.Service.Implementation
         {
             _userRepository.Save(user);
         }
-
-
-        public void SaveRegister(Registro registro)
-        {
-            registro.Date = registro.Date.Replace(" ", "T");
-
-            _userRepository.SaveRegister(registro);
-        }
-
 
         public User RetornaUsuarioLogado(User user)
         {
@@ -49,7 +40,8 @@ namespace MinhasFinancasAPI.Service.Implementation
                 {
                     var claims = new[] {
                         new Claim(ClaimTypes.Name, userRetorno.Nome),
-                        new Claim(ClaimTypes.Email, userRetorno.Email)
+                        new Claim(ClaimTypes.Email, userRetorno.Email),
+                        new Claim(ClaimTypes.Actor, userRetorno.Id.ToString())
                     };
 
                     var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(securityKey));
@@ -109,6 +101,7 @@ namespace MinhasFinancasAPI.Service.Implementation
                 Ativo = EUserStatus.Ativo,
                 Nome = principal.Identities?.FirstOrDefault()?.Name,
                 Email = principal.Identities?.FirstOrDefault()?.Claims?.ToList()[1]?.Value,
+                Id = Convert.ToInt32(principal.Identities?.FirstOrDefault()?.Claims?.ToList()[2]?.Value),
 
             };
 
@@ -120,12 +113,6 @@ namespace MinhasFinancasAPI.Service.Implementation
             return _userRepository.VerificaUsuario(user);
 
         }
-
-        IEnumerable<User> IUserService.GetUsers()
-        {
-            return _userRepository.GetAll();
-        }
-
 
     }
 }

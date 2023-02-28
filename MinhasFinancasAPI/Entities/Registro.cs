@@ -8,6 +8,9 @@ namespace MinhasFinancasAPI.Entities
         [JsonPropertyName("id")]
         public int? Id { get; set; }
 
+        [JsonPropertyName("idUsuario")]
+        public int? IdUsuario { get; set; }
+
         [JsonPropertyName("description")]
         public string Descricao { get; set; }
 
@@ -25,5 +28,5 @@ namespace MinhasFinancasAPI.Entities
 
     }
 
-    
+
 }
